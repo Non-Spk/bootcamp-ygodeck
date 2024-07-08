@@ -26,7 +26,7 @@ const useSearchForm = () => {
       setFetchCardList({ data: [], loading: false, error: error });
       console.error("Error fetching data", error);
     }
-  }, []);
+  }, [setFetchCardList, setCardList]);
 
   const sortData = useCallback((data, sortBy, sortDir) => {
     switch (sortBy.toLowerCase()) {
