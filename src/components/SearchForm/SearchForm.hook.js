@@ -98,7 +98,7 @@ const useSearchForm = () => {
       await callData();
     };
     fetchData();
-  }, []); // Added an async function wrapper and an empty dependency array
+  }, [callData]);
 
   useEffect(() => {
     const filteredData = filterData();
@@ -113,7 +113,8 @@ const useSearchForm = () => {
     SortBy,
     SortDir,
     fetchCard,
-    setCardList
+    setCardList,
+    filterData
   ]);
 
   return {
