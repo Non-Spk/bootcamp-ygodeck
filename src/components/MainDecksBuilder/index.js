@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Grid, GridItem, Box, Heading, Center } from "@chakra-ui/react";
+import { Grid, GridItem, Box, Heading } from "@chakra-ui/react";
 import CardList from "../../components/CardList";
 import FavoriteList from "../../components/FavoriteList";
 import { useCardListStore } from "../../stores/CardListStore";
@@ -28,20 +28,22 @@ function MainDecksBuilder() {
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    const initialLoad = card.data.slice(0, pageSize);
-    setLoadedCards(initialLoad);
-    setSelectedCard(card.data[0]);
-  }, [card.data]);
+    if (card.data) {
+      const initialLoad = card.data.slice(0, pageSize);
+      setLoadedCards(initialLoad);
+      setSelectedCard(card.data[0]);
+    }
+  }, [card.data, pageSize]);
 
   useEffect(() => {
-    if (page > 0) {
+    if (page > 0 && card.data) {
       const nextPageLoad = card.data.slice(
         page * pageSize,
         (page + 1) * pageSize
       );
       setLoadedCards((prevCards) => [...prevCards, ...nextPageLoad]);
     }
-  }, [page, card.data]);
+  }, [page, card.data, pageSize]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -53,13 +55,14 @@ function MainDecksBuilder() {
       { threshold: 1.0 }
     );
 
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
+    const observerTarget = loadMoreRef.current;
+    if (observerTarget) {
+      observer.observe(observerTarget);
     }
 
     return () => {
-      if (loadMoreRef.current) {
-        observer.unobserve(loadMoreRef.current);
+      if (observerTarget) {
+        observer.unobserve(observerTarget);
       }
     };
   }, []);

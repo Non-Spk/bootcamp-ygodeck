@@ -123,7 +123,18 @@ const useSearchForm = () => {
     );
     setCardList({ data: filteredData, loading: false, error: null });
     console.log("filteredData", filteredData);
-  }, [Name, Type, SubType, Race, Attribute, Level, SortBy, SortDir, fetchCard]);
+  }, [
+    Name,
+    Type,
+    SubType,
+    Race,
+    Attribute,
+    Level,
+    SortBy,
+    SortDir,
+    fetchCard.data,
+    setCardList
+  ]);
 
   return {
     fieldName: register("Name"),
@@ -134,7 +145,7 @@ const useSearchForm = () => {
     fieldLevel: register("Level"),
     fieldSortBy: register("SortBy"),
     fieldSortDir: register("SortDir"),
-    Type,
+    Type
   };
 };
 

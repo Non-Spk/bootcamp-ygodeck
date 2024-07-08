@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import { cardGameData, sortCard } from "../../utils/optionList";
 import { useSearchForm } from "./SearchForm.hook";
-import { useEffect } from "react";
 
 function SearchForm() {
   const {
