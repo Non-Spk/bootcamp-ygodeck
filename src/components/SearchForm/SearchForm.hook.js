@@ -95,7 +95,7 @@ const useSearchForm = () => {
 
   useEffect(() => {
     callData();
-  }, []); // callData is a stable function and does not need to be included in the dependency array
+  }, []);
 
   useEffect(() => {
     const filteredData = filterData();
