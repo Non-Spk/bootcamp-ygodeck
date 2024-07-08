@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { getCardService } from "../../services";
 import { useCardListStore } from "../../stores/CardListStore";
@@ -16,7 +16,7 @@ const useSearchForm = () => {
   const SortBy = watch("SortBy") || "name";
   const SortDir = watch("SortDir") || "ASC";
 
-  const callData = async () => {
+  const callData = useCallback(async () => {
     try {
       const response = await getCardService.getCardList();
       const data = response.data;
@@ -26,9 +26,9 @@ const useSearchForm = () => {
       setFetchCardList({ data: [], loading: false, error: error });
       console.error("Error fetching data", error);
     }
-  };
+  }, [getCardService, setFetchCardList, setCardList]);
 
-  const sortData = (data, sortBy, sortDir) => {
+  const sortData = useCallback((data, sortBy, sortDir) => {
     switch (sortBy.toLowerCase()) {
       case "atk":
         return sortDir === "DESC"
@@ -49,9 +49,9 @@ const useSearchForm = () => {
       default:
         return data;
     }
-  };
+  }, []);
 
-  const filterData = () => {
+  const filterData = useCallback(() => {
     if (!fetchCard?.data) return [];
 
     let filteredData = fetchCard.data;
@@ -91,7 +91,18 @@ const useSearchForm = () => {
     }
 
     return sortData(filteredData, SortBy, SortDir);
-  };
+  }, [
+    fetchCard.data,
+    Name,
+    Type,
+    SubType,
+    Race,
+    Attribute,
+    Level,
+    SortBy,
+    SortDir,
+    sortData
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {
