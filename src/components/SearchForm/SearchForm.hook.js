@@ -94,8 +94,11 @@ const useSearchForm = () => {
   };
 
   useEffect(() => {
-    callData();
-  }, []);
+    const fetchData = async () => {
+      await callData();
+    };
+    fetchData();
+  }, []); // Added an async function wrapper and an empty dependency array
 
   useEffect(() => {
     const filteredData = filterData();
