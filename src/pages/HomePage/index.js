@@ -8,9 +8,15 @@ import { Link } from "react-router-dom";
 function HomePage() {
   return (
     <Grid
-      templateAreas={`"header nav"
-                  "main main"
-                  "footer footer"`}
+      templateAreas={{
+        base: `"header"
+                "nav"
+                "main"
+                "footer"`,
+        md: `"header nav"
+              "main main"
+              "footer footer"`
+      }}
       gridTemplateRows={"auto 1fr auto"}
       gridTemplateColumns={"auto 1fr"}
       h="100vh"

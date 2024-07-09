@@ -11,15 +11,19 @@ function NavBar() {
       h="100%"
       w="100%"
     >
-      <Stack direction="row" spacing={5} h="50%">
+      <Stack
+        direction={{ base: "column", md: "row" }}
+        spacing={5}
+        h={{ base: "auto", md: "50%" }}
+      >
         <Link to="/card-database">
           <Button
             colorScheme="blue"
             variant="solid"
-            fontSize="18"
+            fontSize={{ base: "16px", md: "18px" }}
             px="10"
             minH="20px"
-            h="100%"
+            h={{ base: "auto", md: "100%" }}
             borderRadius="md"
             color="black"
           >
@@ -30,10 +34,10 @@ function NavBar() {
           <Button
             colorScheme="blue"
             variant="solid"
-            fontSize="20"
+            fontSize={{ base: "16px", md: "20px" }}
             px="10"
             minH="20px"
-            h="100%"
+            h={{ base: "auto", md: "100%" }}
             borderRadius="md"
             color="black"
           >
@@ -45,10 +49,10 @@ function NavBar() {
             rightIcon={<MdCall />}
             colorScheme="blue"
             variant="solid"
-            fontSize="20"
+            fontSize={{ base: "16px", md: "20px" }}
             px="10"
             minH="20px"
-            h="100%"
+            h={{ base: "auto", md: "100%" }}
             borderRadius="md"
             color="black"
           >

@@ -7,7 +7,7 @@ function BackBar() {
     <Box
       display="flex"
       alignItems="center"
-      justifyContent="flex-end"
+      justifyContent={{ base: "center", md: "flex-end" }}
       h="100%"
       w="100%"
     >
@@ -17,7 +17,7 @@ function BackBar() {
             leftIcon={<MdArrowBack />}
             colorScheme="blue"
             variant="solid"
-            fontSize="20"
+            fontSize={{ base: "sm", md: "20" }}
             px="10"
             minH="20px"
             h="100%"

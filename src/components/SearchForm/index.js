@@ -26,7 +26,11 @@ function SearchForm() {
   return (
     <form onSubmit={onSubmit}>
       <FormControl>
-        <Flex minWidth="1200" alignItems="center" gap="2">
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          alignItems="center"
+          gap="2"
+        >
           <Box p="4" flex="1">
             <FormLabel>Type</FormLabel>
             <Select

@@ -69,13 +69,23 @@ function MainDecksBuilder() {
 
   return (
     <Grid
-      templateAreas={`
-        "detail main card"
-        "detail extra card"
-        "detail side fav"`}
-      gridTemplateRows={"auto auto auto"}
-      gridTemplateColumns={"1fr 2fr auto"}
-      h="85vh"
+      templateAreas={{
+        base: `"detail"
+               "card"
+               "main"
+               "extra"
+               "side"
+               "fav"`,
+        md: `"detail main card"
+             "detail extra card"
+             "detail side fav"`
+      }}
+      gridTemplateRows={{
+        base: "auto auto auto auto auto auto",
+        md: "auto auto auto"
+      }}
+      gridTemplateColumns={{ base: "1fr", md: "1fr 2fr auto" }}
+      h={{ base: "auto", md: "85vh" }}
       gap="1"
       color="blackAlpha.700"
       fontWeight="bold"
@@ -161,7 +171,7 @@ function MainDecksBuilder() {
           right="0"
           left="0"
           w="100%"
-          h="calc(50vh)"
+          h={{ base: "calc(30vh)", md: "calc(50vh)" }}
           overflowY="auto"
           p="2"
           boxShadow="sm"
@@ -186,7 +196,7 @@ function MainDecksBuilder() {
           right="0"
           left="0"
           w="100%"
-          h="calc(25vh)"
+          h={{ base: "calc(15vh)", md: "calc(25vh)" }}
           overflowY="auto"
           p="2"
           boxShadow="sm"

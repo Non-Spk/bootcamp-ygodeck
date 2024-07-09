@@ -9,11 +9,17 @@ import MainDecksBuilder from "../../components/MainDecksBuilder";
 function DecksBuilderPage() {
   return (
     <Grid
-      templateAreas={`"header nav"
-                  "main main"
-                  "footer footer"`}
-      gridTemplateRows={"auto 1fr auto"}
-      gridTemplateColumns={"auto 1fr"}
+      templateAreas={{
+        base: `"header"
+               "nav"
+               "main"
+               "footer"`,
+        md: `"header nav"
+             "main main"
+             "footer footer"`
+      }}
+      gridTemplateRows={{ base: "auto 1fr auto auto", md: "auto 1fr auto" }}
+      gridTemplateColumns={{ base: "1fr", md: "auto 1fr" }}
       h="100vh"
       gap="1"
       color="blackAlpha.700"
@@ -25,7 +31,7 @@ function DecksBuilderPage() {
         </Link>
       </GridItem>
       <GridItem pl="2" area={"nav"}>
-        <Flex flexDir="row">
+        <Flex flexDir={{ base: "column", md: "row" }}>
           <Box>
             <SearchForm />
           </Box>

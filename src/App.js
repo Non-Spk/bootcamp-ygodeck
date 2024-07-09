@@ -33,19 +33,17 @@ function App() {
         bgSize="cover"
         bgPos="center"
         w="100%"
-        h="100vh"
-        minW="720px"
+        minH="100vh"
+        minW="320px"
         maxW="100%"
-        maxH="100vh"
         overflow="hidden"
       >
         <Center>
           <Box
-            w="80%"
-            minW="720px"
+            w={{ base: "90%", md: "80%", lg: "70%" }}
+            minW="320px"
             minH="100vh"
-            h="auto"
-            p={4}
+            p={{ base: 2, md: 4 }}
             color="PeriwinkleGray.font"
             position="relative"
             overflow="hidden"
@@ -53,18 +51,16 @@ function App() {
             <Box
               bg="PeriwinkleGray.bg"
               opacity="0.75"
-              minW="100%"
-              minH="100%"
-              h="auto"
+              w="100%"
+              h="100%"
               position="absolute"
               top="0"
               left="0"
               zIndex="0"
             />
             <Box
-              minW="100%"
-              minH="100%"
-              h="auto"
+              w="100%"
+              h="100%"
               position="absolute"
               top="0"
               left="0"

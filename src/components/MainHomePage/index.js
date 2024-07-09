@@ -7,27 +7,38 @@ import {
   ListItem,
   ListIcon
 } from "@chakra-ui/react";
-
 import { MdCheckCircle } from "react-icons/md";
 
 function MainHomePage() {
   return (
-    <Flex flexDir="row">
+    <Flex flexDir={{ base: "column", md: "row" }} alignItems="center">
       <Image
         src="/images/Number.39_.Utopia.removeBG.png"
         alt="Image"
-        h="100%"
-        w="100%"
+        h={{ base: "50%", md: "100%" }}
+        w={{ base: "100%", md: "50%" }}
         maxH="850px"
         maxW="850px"
       />
-      <Box bgColor="" justifyContent="center" alignContent="center">
-        <Text fontSize="2xl">
+      <Box bgColor="" justifyContent="center" alignContent="center" p={4}>
+        <Text
+          fontSize={{ base: "xl", md: "2xl" }}
+          textAlign={{ base: "center", md: "left" }}
+        >
           Welcome to Yugi Deck Organizer! The website that makes organizing and
           managing your Yugi cards easy.
         </Text>
-        <Text fontSize="xl">Key Features:</Text>
-        <List spacing={3} fontSize="xl">
+        <Text
+          fontSize={{ base: "lg", md: "xl" }}
+          textAlign={{ base: "center", md: "left" }}
+        >
+          Key Features:
+        </Text>
+        <List
+          spacing={3}
+          fontSize={{ base: "md", md: "xl" }}
+          textAlign={{ base: "center", md: "left" }}
+        >
           <ListItem>
             <ListIcon as={MdCheckCircle} color="green.500" />
             Card Management: Easily add, edit, or remove cards.

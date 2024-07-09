@@ -36,8 +36,8 @@ function CardDatabasePage() {
   return (
     <Grid
       templateAreas={`"header nav"
-                  "main main"
-                  "footer footer"`}
+                      "main main"
+                      "footer footer"`}
       gridTemplateRows={"auto 1fr auto"}
       gridTemplateColumns={"auto 1fr"}
       h="100vh"

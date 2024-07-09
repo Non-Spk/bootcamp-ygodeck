@@ -13,7 +13,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import useFavoriteCard from "../../components/FavoriteCard/FavoriteCard.hook";
 
 function MainCardDatabasePage({ data }) {
-  const {  setFavoriteCard } = useFavoriteCard();
+  const { setFavoriteCard } = useFavoriteCard();
 
   const handleClick = () => {
     setFavoriteCard(data);
