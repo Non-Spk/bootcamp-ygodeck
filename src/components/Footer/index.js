@@ -3,14 +3,14 @@ import { keyframes } from "@emotion/react";
 
 const marquee = keyframes`
   0% {
-    transform: translateX(100%);
+    transform: translateX(150%);
   }
   100% {
     transform: translateX(-100%);
   }
 `;
 
-function Footer() {
+export default function Footer() {
   return (
     <Box
       as="footer"
@@ -31,5 +31,3 @@ function Footer() {
     </Box>
   );
 }
-
-export default Footer;

@@ -1,31 +1,31 @@
 import { useState, useEffect, useRef } from "react";
-import { Grid, GridItem, Box, Heading } from "@chakra-ui/react";
-import CardList from "../../components/CardList";
-import FavoriteList from "../../components/FavoriteList";
+import { Grid, GridItem, Box, Text } from "@chakra-ui/react";
+import CardList from "../CardList";
+import FavoriteList from "../FavoriteList";
 import { useCardListStore } from "../../stores/CardListStore";
 import { useFavoriteStore } from "../../stores/CardFavStore";
-import DetailCard from "../../components/DetailCard";
 import { setDeckType } from "../../utils/optionList";
+import DetailCard from "../DetailCard";
+import { useDeckStore } from "../../stores/CardDeckStore";
 import {
   useMainDeckCard,
   useExtraDeckCard,
   useSideDeckCard
 } from "../../components/DeckList/DeckList.hook";
-import { useDeckStore } from "../../stores/CardDeckStore";
-import DeckList from "../../components/DeckList";
+import DeckList from "../DeckList";
 
-function MainDecksBuilder() {
+export default function MainDeckBuilderPage() {
   const { card } = useCardListStore();
   const { Favorite } = useFavoriteStore();
+  const [loadedCards, setLoadedCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const loadMoreRef = useRef(null);
+  const pageSize = 4;
+  const pageIndex = useRef(0);
+  const { MainDeck, ExtraDeck, SideDeck } = useDeckStore();
   const { setMainDeckCard, editMainDeckCard } = useMainDeckCard();
   const { setExtraDeckCard, editExtraDeckCard } = useExtraDeckCard();
   const { setSideDeckCard, editSideDeckCard } = useSideDeckCard();
-  const { MainDeck, ExtraDeck, SideDeck } = useDeckStore();
-  const [loadedCards, setLoadedCards] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [page, setPage] = useState(0);
-  const pageSize = 15;
-  const loadMoreRef = useRef(null);
 
   useEffect(() => {
     if (card.data) {
@@ -36,61 +36,60 @@ function MainDecksBuilder() {
   }, [card.data, pageSize]);
 
   useEffect(() => {
-    if (page > 0 && card.data) {
-      const nextPageLoad = card.data.slice(
-        page * pageSize,
-        (page + 1) * pageSize
-      );
-      setLoadedCards((prevCards) => [...prevCards, ...nextPageLoad]);
-    }
-  }, [page, card.data, pageSize]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setPage((prevPage) => prevPage + 1);
+          loadMoreCards();
         }
       },
       { threshold: 1.0 }
     );
 
-    const observerTarget = loadMoreRef.current;
-    if (observerTarget) {
-      observer.observe(observerTarget);
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
     }
 
     return () => {
-      if (observerTarget) {
-        observer.unobserve(observerTarget);
+      if (loadMoreRef.current) {
+        observer.unobserve(loadMoreRef.current);
       }
     };
-  }, []);
+  }, [loadedCards]);
+
+  const loadMoreCards = () => {
+    const newPageIndex = pageIndex.current + 1;
+    const startIndex = newPageIndex * pageSize;
+    const newCards = card.data.slice(startIndex, startIndex + pageSize);
+    setLoadedCards((prevCards) => [...prevCards, ...newCards]);
+    pageIndex.current = newPageIndex;
+  };
 
   return (
     <Grid
       templateAreas={{
-        base: `"detail"
-               "card"
-               "main"
-               "extra"
-               "side"
-               "fav"`,
+        base: `"card card"
+               "fav fav"
+               "detail main"
+               "detail extra"
+               "detail side"`,
         md: `"detail main card"
-             "detail extra card"
-             "detail side fav"`
+            "detail extra fav"
+            "detail side fav"`
       }}
       gridTemplateRows={{
-        base: "auto auto auto auto auto auto",
-        md: "auto auto auto"
+        base: "100px 100px 1fr 1fr 1fr",
+        md: "1fr 140px 140px"
       }}
-      gridTemplateColumns={{ base: "1fr", md: "1fr 2fr auto" }}
-      h={{ base: "auto", md: "85vh" }}
-      gap="1"
+      gridTemplateColumns={{
+        base: "1fr 1fr",
+        md: "300px 1fr 300px"
+      }}
+      h="100%"
+      gap="2"
       color="blackAlpha.700"
       fontWeight="bold"
     >
-      <GridItem pl="2" bg="pink.300" area={"detail"}>
+      <GridItem bg="orange.300" area={"detail"}>
         <DetailCard
           data={selectedCard}
           onClick={() => {
@@ -117,9 +116,23 @@ function MainDecksBuilder() {
           }}
         />
       </GridItem>
-      <GridItem pl="2" bg="yellow.300" area={"main"}>
-        <Heading>{`Main Deck : ${MainDeck.data.length}/40`}</Heading>
-        <Box gap={4} display="flex" flexWrap="wrap">
+      <GridItem bg="green.300" area={"main"}>
+        <Text>{`Main Deck : ${MainDeck.data.length}/40`}</Text>
+        <Box
+          bg="white"
+          position="sticky"
+          display="flex"
+          flexWrap="wrap"
+          top="0"
+          right="0"
+          left="0"
+          w="100%"
+          h="calc(100%)"
+          maxH={{ base: "120px", md: "465px" }}
+          overflowY="auto"
+          boxShadow="sm"
+          transition="box-shadow 0.2s ease, background-color 0.2s ease"
+        >
           {MainDeck.data.map((item, index) => (
             <DeckList
               key={`card-${item.id}`}
@@ -132,9 +145,23 @@ function MainDecksBuilder() {
           ))}
         </Box>
       </GridItem>
-      <GridItem pl="2" bg="red.300" area={"extra"}>
-        <Heading>{`Extra Deck : ${ExtraDeck.data.length}/15`}</Heading>
-        <Box gap={4} display="flex" flexWrap="wrap">
+      <GridItem bg="yellow.300" area={"extra"}>
+        <Text>{`Extra Deck : ${ExtraDeck.data.length}/15`}</Text>
+        <Box
+          bg="white"
+          position="sticky"
+          display="flex"
+          flexWrap="wrap"
+          top="0"
+          right="0"
+          left="0"
+          w="100%"
+          h="calc(100%)"
+          maxH={{ base: "120px", md: "116px" }}
+          overflowY="auto"
+          boxShadow="sm"
+          transition="box-shadow 0.2s ease, background-color 0.2s ease"
+        >
           {ExtraDeck.data.map((item, index) => (
             <DeckList
               key={`card-${item.id}`}
@@ -147,9 +174,23 @@ function MainDecksBuilder() {
           ))}
         </Box>
       </GridItem>
-      <GridItem pl="2" bg="blue.300" area={"side"}>
-        <Heading>{`Side Deck : ${SideDeck.data.length}/15`}</Heading>
-        <Box gap={4} display="flex" flexWrap="wrap">
+      <GridItem bg="red.300" area={"side"}>
+        <Text>{`Side Deck : ${SideDeck.data.length}/15`}</Text>
+        <Box
+          bg="white"
+          position="sticky"
+          display="flex"
+          flexWrap="wrap"
+          top="0"
+          right="0"
+          left="0"
+          w="100%"
+          h="calc(100%)"
+          maxH={{ base: "120px", md: "116px" }}
+          overflowY="auto"
+          boxShadow="sm"
+          transition="box-shadow 0.2s ease, background-color 0.2s ease"
+        >
           {SideDeck.data.map((item, index) => (
             <DeckList
               key={`card-${item.id}`}
@@ -162,18 +203,20 @@ function MainDecksBuilder() {
           ))}
         </Box>
       </GridItem>
-      <GridItem pl="2" bg="green.300" area={"card"}>
-        <Heading>CardList</Heading>
+      <GridItem bg="pink.300" area={"card"}>
+        CardList
         <Box
           bg="white"
           position="sticky"
+          display="flex"
+          flexWrap="wrap"
           top="0"
           right="0"
           left="0"
           w="100%"
-          h={{ base: "calc(30vh)", md: "calc(50vh)" }}
+          h={{ base: "calc(100%)" }}
+          maxH={{ base: "80px", md: "465px" }}
           overflowY="auto"
-          p="2"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"
         >
@@ -187,18 +230,20 @@ function MainDecksBuilder() {
           <div ref={loadMoreRef} />
         </Box>
       </GridItem>
-      <GridItem pl="2" bg="purple.300" area={"fav"}>
-        <Heading>FavoriteList</Heading>
+      <GridItem bg="blue.300" area={"fav"}>
+        FavoriteList
         <Box
           bg="white"
           position="sticky"
+          display="flex"
+          flexWrap="wrap"
           top="0"
           right="0"
           left="0"
-          w="100%"
-          h={{ base: "calc(15vh)", md: "calc(25vh)" }}
+          w={{ base: "100%" }}
+          h={{ base: "calc(100%)" }}
+          maxH={{ base: "80px", md: "265px" }}
           overflowY="auto"
-          p="2"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"
         >
@@ -215,5 +260,3 @@ function MainDecksBuilder() {
     </Grid>
   );
 }
-
-export default MainDecksBuilder;

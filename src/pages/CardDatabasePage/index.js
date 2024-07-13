@@ -1,91 +1,121 @@
-import {
-  Grid,
-  GridItem,
-  Image,
-  Flex,
-  Box,
-  Stack,
-  Button
-} from "@chakra-ui/react";
-import { baseICON } from "../../utils/constant";
-import Footer from "../../components/Footer";
+import { useState, useEffect, useRef } from "react";
+import { Grid, GridItem, Center, Image, Box, Stack } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import BackBar from "../../components/BackBar";
-import MainCardDatabasePage from "../../components/MainCardDatabasePage";
+import { baseICON } from "../../utils/constant";
+import NavBar from "../../components/NavBar";
 import SearchForm from "../../components/SearchForm";
+import MainCardDatabasePage from "../../components/MainCardDatabasePage";
+import Footer from "../../components/Footer";
 import { useCardListStore } from "../../stores/CardListStore";
-import { useState } from "react";
 
-function CardDatabasePage() {
-  const { card } = useCardListStore();
-  const cardsPerPage = 3;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = card.data.slice(indexOfFirstCard, indexOfLastCard);
-
-  const totalPages = Math.ceil(card.data.length / cardsPerPage);
-
-  const paginate = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
+export default function CardDatabasePage() {
+  const area = {
+    base: `"header "
+            "nav "
+            "main "
+            "footer"`
   };
+  const TemplateCol = { base: "1fr" };
+  const TemplateRow = { base: "80px 40px 1fr 50px" };
+  const { card } = useCardListStore();
+  const cardsPerPage = 15;
+  const [, setCurrentPage] = useState(1);
+  const loadMoreRef = useRef(null);
+  const [loadedCards, setLoadedCards] = useState([]);
+
+  useEffect(() => {
+    if (card.data) {
+      const initialLoad = card.data.slice(0, cardsPerPage);
+      setLoadedCards(initialLoad);
+    }
+  }, [card.data, cardsPerPage]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setCurrentPage((prevPage) => {
+            const nextPage = prevPage + 1;
+            if (nextPage <= Math.ceil(card.data.length / cardsPerPage)) {
+              const nextCards = card.data.slice(
+                (nextPage - 1) * cardsPerPage,
+                nextPage * cardsPerPage
+              );
+              setLoadedCards((prevCards) => [...prevCards, ...nextCards]);
+            }
+            return nextPage;
+          });
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    const observerTarget = loadMoreRef.current;
+    if (observerTarget) {
+      observer.observe(observerTarget);
+    }
+
+    return () => {
+      if (observerTarget) {
+        observer.unobserve(observerTarget);
+      }
+    };
+  }, [card.data, cardsPerPage]);
+
+  if (!card || !card.data) {
+    return <Box>No cards available</Box>;
+  }
 
   return (
     <Grid
-      templateAreas={`"header nav"
-                      "main main"
-                      "footer footer"`}
-      gridTemplateRows={"auto 1fr auto"}
-      gridTemplateColumns={"auto 1fr"}
+      templateAreas={area}
+      gridTemplateRows={TemplateRow}
+      gridTemplateColumns={TemplateCol}
       h="100vh"
       gap="1"
       color="blackAlpha.700"
       fontWeight="bold"
     >
-      <GridItem pl="2" area={"header"}>
-        <Link to="/">
-          <Image src={baseICON} alt="icon" w="20%" minW="80px" />
-        </Link>
+      <GridItem area={"header"}>
+        <Center>
+          <Link to="/">
+            <Image src={baseICON} alt="icon" w={{ base: "80px" }} />
+          </Link>
+        </Center>
       </GridItem>
-      <GridItem pl="2" area={"nav"}>
-        <Flex flexDir="row">
-          <Box>
-            <SearchForm />
-          </Box>
-          <BackBar />
-        </Flex>
+      <GridItem area={"nav"} pos="relative">
+        <Box pos="absolute" top="0" left="1">
+          <NavBar />
+        </Box>
+        <Box pos="absolute" top="0" right="1">
+          <SearchForm />
+        </Box>
       </GridItem>
-      <GridItem pl="2" area={"main"}>
-        <Stack>
-          {currentCards.map((item) => (
-            <MainCardDatabasePage key={`card-${item.id}`} data={item} />
-          ))}
-        </Stack>
-        <Flex justify="center" mt={4} gap={5} align="center">
-          <Button
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-            mr={2}
-          >
-            Previous
-          </Button>
-          <Box>{`${currentPage} / ${totalPages}`}</Box>
-          <Button
-            onClick={() => paginate(currentPage + 1)}
-            disabled={indexOfLastCard >= card.data.length}
-          >
-            Next
-          </Button>
-        </Flex>
+      <GridItem area={"main"}>
+        <Box
+          bg="white"
+          position="sticky"
+          top="0"
+          right="0"
+          left="0"
+          w="100%"
+          h={{ base: "calc(80vh)", sm: "calc(76vh)" }}
+          overflowY="auto"
+          p="2"
+          boxShadow="sm"
+          transition="box-shadow 0.2s ease, background-color 0.2s ease"
+        >
+          <Stack>
+            {loadedCards.map((item) => (
+              <MainCardDatabasePage key={`card-${item.id}`} data={item} />
+            ))}
+            <div ref={loadMoreRef} style={{ height: "20px" }} />{" "}
+          </Stack>
+        </Box>
       </GridItem>
-      <GridItem pl="2" area={"footer"} overflow="hidden" width="100%">
+      <GridItem area={"footer"}>
         <Footer />
       </GridItem>
     </Grid>
   );
 }
-
-export default CardDatabasePage;

@@ -1,6 +1,6 @@
 import { useFavoriteStore } from "../../stores/CardFavStore";
 
-const useFavoriteCard = () => {
+export default function useFavoriteCard() {
   const { setFavorite, Favorite } = useFavoriteStore();
 
   const setFavoriteCard = (data) => {
@@ -32,6 +32,4 @@ const useFavoriteCard = () => {
   };
 
   return { setFavoriteCard, editFavoriteCard };
-};
-
-export default useFavoriteCard;
+}

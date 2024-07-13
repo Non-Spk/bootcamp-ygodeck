@@ -1,22 +1,11 @@
-import {
-  Card,
-  CardBody,
-  Image,
-  Stack,
-  Text,
-  Box,
-  Button
-} from "@chakra-ui/react";
+import { Card, Image, Box, Button } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import useFavoriteCard from "../../components/FavoriteCard/FavoriteCard.hook";
 
-function FavoriteList({ data, index, onClick }) {
+export default function FavoriteList({ data, index, onClick }) {
   const { editFavoriteCard } = useFavoriteCard();
   const imageUrl = data?.card_images?.[0]?.image_url_small || "";
   const cardName = data?.name || "";
-  const cardType = data?.type || "";
-  const cardAttribute = data?.attribute || "";
-  const cardRace = data?.race || "";
 
   const handleClickClose = (index) => {
     editFavoriteCard(index);
@@ -27,33 +16,29 @@ function FavoriteList({ data, index, onClick }) {
       direction={{ base: "column", sm: "row" }}
       overflow="hidden"
       variant="outline"
-      w="400px"
-      h="100px"
+      w="100"
+      h="80px"
       cursor="pointer"
       onClick={onClick}
+      pos="relative"
     >
       <Image
         objectFit="cover"
-        maxW={{ base: "100%", sm: "200px" }}
+        h={{ base: "100%" }}
         src={imageUrl}
         alt={cardName}
       />
-      <Stack flex="1">
-        <CardBody>
-          <Text fontSize="14px">{cardName}</Text>
-          <Text fontSize="12px">{`${cardType}`}</Text>
-          <Text fontSize="12px">{`${cardAttribute} ${cardRace}`}</Text>
-        </CardBody>
-      </Stack>
-      <Box flex="0" display="flex" alignItems="center">
+      <Box pos="absolute">
         <Button
           onClick={() => handleClickClose(index)}
           cursor="pointer"
           variant="ghost"
           aria-label="Add to Favorite"
           size="lg"
-          height="100px"
-          width="100px"
+          h="1px"
+          w="1px"
+          top="-1"
+          right="-5"
         >
           <CloseIcon />
         </Button>
@@ -61,5 +46,3 @@ function FavoriteList({ data, index, onClick }) {
     </Card>
   );
 }
-
-export default FavoriteList;

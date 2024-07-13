@@ -1,4 +1,8 @@
 import {
+  Menu,
+  MenuButton,
+  MenuList,
+  Button,
   Box,
   Flex,
   FormControl,
@@ -6,10 +10,12 @@ import {
   Select,
   Input
 } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 import { cardGameData, sortCard } from "../../utils/optionList";
 import { useSearchForm } from "./SearchForm.hook";
+import { useBreakpointValue } from "@chakra-ui/react";
 
-function SearchForm() {
+export default function SearchForm() {
   const {
     onSubmit,
     fieldName,
@@ -23,154 +29,160 @@ function SearchForm() {
     Type
   } = useSearchForm();
 
-  return (
-    <form onSubmit={onSubmit}>
-      <FormControl>
-        <Flex
-          direction={{ base: "column", md: "row" }}
-          alignItems="center"
-          gap="2"
-        >
-          <Box p="4" flex="1">
-            <FormLabel>Type</FormLabel>
-            <Select
-              {...fieldType}
-              defaultValue="Monster"
-              sx={{ _focus: { color: "primary.400" } }}
-            >
-              {cardGameData.cardTypes.map((item, index) => (
-                <option
-                  key={`type-${index}`}
-                  value={item}
-                  sx={{ color: "primary.400" }}
-                >
-                  {item}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <Box p="4" flex="1">
-            <FormLabel>SubType</FormLabel>
-            <Select
-              {...fieldSubType}
-              placeholder="Select All"
-              sx={{ _focus: { color: "primary.400" } }}
-            >
-              {Type &&
-                cardGameData.subTypes[Type.replace(/\s+/g, "")]?.map(
-                  (item, index) => (
-                    <option
-                      key={`subType-${index}`}
-                      value={item}
-                      style={{ color: "var(--primary-400)" }}
-                    >
-                      {item}
-                    </option>
-                  )
-                )}
-            </Select>
-          </Box>
-          <Box p="4" flex="1">
-            <FormLabel>Race</FormLabel>
-            <Select
-              {...fieldRace}
-              placeholder="Select All"
-              sx={{ _focus: { color: "primary.400" } }}
-            >
-              {Type === "Monster" &&
-                cardGameData.race.map((item, index) => (
-                  <option
-                    key={`race-${index}`}
-                    value={item}
-                    sx={{ color: "primary.400" }}
-                  >
+  const isMenu = useBreakpointValue({
+    base: true,
+    sm: true,
+    md: true,
+    lg: true,
+    xl: true,
+    "2xl": false
+  });
+
+  const renderForm = () => (
+    <FormControl>
+      <Flex direction={{ base: "row" }} alignItems="left" gap="auto">
+        <Flex p={1}>
+          <FormLabel fontSize="15px">Type</FormLabel>
+          <Select
+            {...fieldType}
+            defaultValue="Monster"
+            sx={{ _focus: { color: "primary.400" } }}
+            size="xs"
+          >
+            {cardGameData.cardTypes.map((item, index) => (
+              <option key={`type-${index}`} value={item}>
+                {item}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        <Flex p={1}>
+          <FormLabel fontSize="15px">SubType</FormLabel>
+          <Select
+            {...fieldSubType}
+            placeholder="Select All"
+            sx={{ _focus: { color: "primary.400" } }}
+            size="xs"
+          >
+            {Type &&
+              cardGameData.subTypes[Type.replace(/\s+/g, "")]?.map(
+                (item, index) => (
+                  <option key={`subType-${index}`} value={item}>
                     {item}
                   </option>
-                ))}
-            </Select>
-          </Box>
-          <Box p="4" flex="1">
-            <FormLabel>Attribute</FormLabel>
-            <Select
-              {...fieldAttribute}
-              placeholder="Select All"
-              sx={{ _focus: { color: "primary.400" } }}
-            >
-              {cardGameData.attribute.map((item, index) => (
-                <option
-                  key={`attribute-${index}`}
-                  value={item}
-                  sx={{ color: "primary.400" }}
-                >
-                  {item}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <Box p="4" flex="1">
-            <FormLabel>Level</FormLabel>
-            <Select
-              {...fieldLevel}
-              placeholder="Select All"
-              sx={{ _focus: { color: "primary.400" } }}
-            >
-              {[...Array(12)].map((_, index) => (
-                <option
-                  key={`level-${index + 1}`}
-                  value={index + 1}
-                  sx={{ color: "primary.400" }}
-                >
-                  {index + 1}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <Box p="4" flex="1">
-            <FormLabel>SortBy</FormLabel>
-            <Select
-              {...fieldSortBy}
-              defaultValue="Name"
-              sx={{ _focus: { color: "primary.400" } }}
-            >
-              {sortCard.sortBy.map((item, index) => (
-                <option
-                  key={`sortBy-${index}`}
-                  value={item}
-                  sx={{ color: "primary.400" }}
-                >
-                  {item}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <Box p="4" flex="1">
-            <FormLabel>SortDir</FormLabel>
-            <Select
-              {...fieldSortDir}
-              defaultValue="ASC"
-              sx={{ _focus: { color: "primary.400" } }}
-            >
-              {sortCard.sortDir.map((item, index) => (
-                <option
-                  key={`sortDir-${index}`}
-                  value={item}
-                  sx={{ color: "primary.400" }}
-                >
-                  {item}
-                </option>
-              ))}
-            </Select>
-          </Box>
-          <Box p="4" flex="2">
-            <FormLabel>Search</FormLabel>
-            <Flex align="center">
-              <Input {...fieldName} placeholder="Search" flex="1" mr={2} />
-            </Flex>
-          </Box>
+                )
+              )}
+          </Select>
         </Flex>
-      </FormControl>
-    </form>
+        <Flex p={1}>
+          <FormLabel fontSize="15px">Race</FormLabel>
+          <Select
+            {...fieldRace}
+            placeholder="Select All"
+            sx={{ _focus: { color: "primary.400" } }}
+            size="xs"
+          >
+            {Type === "Monster" &&
+              cardGameData.race.map((item, index) => (
+                <option key={`race-${index}`} value={item}>
+                  {item}
+                </option>
+              ))}
+          </Select>
+        </Flex>
+        <Flex p={1} fontSize="15px">
+          <FormLabel>Attribute</FormLabel>
+          <Select
+            {...fieldAttribute}
+            placeholder="Select All"
+            sx={{ _focus: { color: "primary.400" } }}
+            size="xs"
+          >
+            {cardGameData.attribute.map((item, index) => (
+              <option key={`attribute-${index}`} value={item}>
+                {item}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        <Flex p={1}>
+          <FormLabel fontSize="15px">Level</FormLabel>
+          <Select
+            {...fieldLevel}
+            placeholder="Select All"
+            sx={{ _focus: { color: "primary.400" } }}
+            size="xs"
+          >
+            {[...Array(12)].map((_, index) => (
+              <option key={`level-${index + 1}`} value={index + 1}>
+                {index + 1}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        <Flex p={1}>
+          <FormLabel fontSize="15px">SortBy</FormLabel>
+          <Select
+            {...fieldSortBy}
+            defaultValue="Name"
+            sx={{ _focus: { color: "primary.400" } }}
+            size="xs"
+          >
+            {sortCard.sortBy.map((item, index) => (
+              <option key={`sortBy-${index}`} value={item}>
+                {item}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        <Flex p={1}>
+          <FormLabel fontSize="15px">SortDir</FormLabel>
+          <Select
+            {...fieldSortDir}
+            defaultValue="ASC"
+            sx={{ _focus: { color: "primary.400" } }}
+            size="xs"
+          >
+            {sortCard.sortDir.map((item, index) => (
+              <option key={`sortDir-${index}`} value={item}>
+                {item}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        <Flex p={1}>
+          <FormLabel fontSize="15px">Search</FormLabel>
+          <Flex align="top">
+            <Input
+              {...fieldName}
+              placeholder="Search"
+              flex="1"
+              mr={2}
+              size="xs"
+            />
+          </Flex>
+        </Flex>
+      </Flex>
+    </FormControl>
+  );
+
+  return isMenu ? (
+    <Menu>
+      <MenuButton
+        as={Button}
+        px={4}
+        py={2}
+        transition="all 0.5s"
+        borderRadius="md"
+        borderWidth="1px"
+      >
+        <SearchIcon />
+      </MenuButton>
+      <MenuList>
+        <form onSubmit={onSubmit}>{renderForm()}</form>
+      </MenuList>
+    </Menu>
+  ) : (
+    <form onSubmit={onSubmit}>{renderForm()}</form>
   );
 }
-
-export default SearchForm;

@@ -4,9 +4,8 @@ import theme from "./utils/theme";
 import HomePage from "./pages/HomePage";
 import CardDatabasePage from "./pages/CardDatabasePage";
 import DeckBuilderPage from "./pages/DeckBuilderPage";
-import ContactMePage from "./pages/ContactMePage";
 
-function App() {
+export default function App() {
   const router = createBrowserRouter([
     {
       path: "/",
@@ -19,12 +18,10 @@ function App() {
     {
       path: "/deck-builder",
       element: <DeckBuilderPage />
-    },
-    {
-      path: "/contact-me",
-      element: <ContactMePage />
     }
   ]);
+
+  const width = { base: "95%" };
 
   return (
     <ChakraProvider theme={theme}>
@@ -32,18 +29,16 @@ function App() {
         bgImg="url('/images/background.jpg')"
         bgSize="cover"
         bgPos="center"
-        w="100%"
         minH="100vh"
         minW="320px"
-        maxW="100%"
+        w="100%"
         overflow="hidden"
       >
         <Center>
           <Box
-            w={{ base: "90%", md: "80%", lg: "70%" }}
+            w={width}
             minW="320px"
             minH="100vh"
-            p={{ base: 2, md: 4 }}
             color="PeriwinkleGray.font"
             position="relative"
             overflow="hidden"
@@ -74,5 +69,3 @@ function App() {
     </ChakraProvider>
   );
 }
-
-export default App;

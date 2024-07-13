@@ -5,54 +5,52 @@ import {
   Text,
   List,
   ListItem,
-  ListIcon
+  ListIcon,
+  Spacer
 } from "@chakra-ui/react";
-import { MdCheckCircle } from "react-icons/md";
+import { CheckIcon } from "@chakra-ui/icons";
 
-function MainHomePage() {
+export default function MainHomePage() {
+  const FontSizeHeader = { base: "md", sm: "md", md: "lg" };
+  const FontSizeText = { base: "sm", sm: "sm", md: "md" };
+
   return (
-    <Flex flexDir={{ base: "column", md: "row" }} alignItems="center">
+    <Flex flexDir={{ base: "column", sm: "row" }} alignItems="center">
       <Image
         src="/images/Number.39_.Utopia.removeBG.png"
         alt="Image"
-        h={{ base: "50%", md: "100%" }}
-        w={{ base: "100%", md: "50%" }}
+        h="auto"
+        w={{ base: "80%", sm: "50%", md: "40%" }}
         maxH="850px"
         maxW="850px"
       />
       <Box bgColor="" justifyContent="center" alignContent="center" p={4}>
         <Text
-          fontSize={{ base: "xl", md: "2xl" }}
-          textAlign={{ base: "center", md: "left" }}
+          fontSize={FontSizeHeader}
+          textAlign={{ base: "center", sm: "left" }}
         >
           Welcome to Yugi Deck Organizer! The website that makes organizing and
           managing your Yugi cards easy.
         </Text>
-        <Text
-          fontSize={{ base: "lg", md: "xl" }}
-          textAlign={{ base: "center", md: "left" }}
-        >
+        <Spacer h="20px" />
+        <Text fontSize={FontSizeText} textAlign="left">
           Key Features:
         </Text>
-        <List
-          spacing={3}
-          fontSize={{ base: "md", md: "xl" }}
-          textAlign={{ base: "center", md: "left" }}
-        >
+        <List spacing={3} fontSize={FontSizeText} textAlign="left">
           <ListItem>
-            <ListIcon as={MdCheckCircle} color="green.500" />
+            <ListIcon as={CheckIcon} color="green.500" />
             Card Management: Easily add, edit, or remove cards.
           </ListItem>
           <ListItem>
-            <ListIcon as={MdCheckCircle} color="green.500" />
+            <ListIcon as={CheckIcon} color="green.500" />
             Search and Filter: Quickly find the cards you need.
           </ListItem>
           <ListItem>
-            <ListIcon as={MdCheckCircle} color="green.500" />
+            <ListIcon as={CheckIcon} color="green.500" />
             Categorize: Manage cards by type and rarity.
           </ListItem>
           <ListItem>
-            <ListIcon as={MdCheckCircle} color="green.500" />
+            <ListIcon as={CheckIcon} color="green.500" />
             Deck Building: Create and manage your decks all in one place.
           </ListItem>
         </List>
@@ -60,5 +58,3 @@ function MainHomePage() {
     </Flex>
   );
 }
-
-export default MainHomePage;

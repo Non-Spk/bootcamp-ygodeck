@@ -1,6 +1,6 @@
 import { Image } from "@chakra-ui/react";
 
-function DeckList({ data, index, edit }) {
+export default function DeckList({ data, index, edit }) {
   const imageUrl = data?.card_images?.[0]?.image_url_small || "";
   const cardName = data?.name || "";
 
@@ -15,7 +15,7 @@ function DeckList({ data, index, edit }) {
   return (
     <Image
       cursor="pointer"
-      h="80px"
+      h={{ base: "40px", md: "116px" }}
       w="auto"
       src={imageUrl}
       alt={cardName}
@@ -23,5 +23,3 @@ function DeckList({ data, index, edit }) {
     />
   );
 }
-
-export default DeckList;
