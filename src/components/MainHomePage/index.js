@@ -11,8 +11,30 @@ import {
 import { CheckIcon } from "@chakra-ui/icons";
 
 export default function MainHomePage() {
-  const FontSizeHeader = { base: "md", sm: "md", md: "lg" };
-  const FontSizeText = { base: "sm", sm: "sm", md: "md" };
+  const FontSizeHeader = {
+    base: "8px",
+    sm: "12px",
+    md: "14px",
+    lg: "16px",
+    xl: "18px",
+    "2xl": "20px"
+  };
+  const FontSizeText = {
+    base: "5px",
+    sm: "12px",
+    md: "14px",
+    lg: "16px",
+    xl: "18px",
+    "2xl": "20px"
+  };
+  const SizeImage = {
+    base: "50%",
+    sm: "50%",
+    md: "40%",
+    lg: "",
+    xl: "",
+    "2xl": ""
+  };
 
   return (
     <Flex flexDir={{ base: "column", sm: "row" }} alignItems="center">
@@ -20,7 +42,7 @@ export default function MainHomePage() {
         src="/images/Number.39_.Utopia.removeBG.png"
         alt="Image"
         h="auto"
-        w={{ base: "80%", sm: "50%", md: "40%" }}
+        w={SizeImage}
         maxH="850px"
         maxW="850px"
       />

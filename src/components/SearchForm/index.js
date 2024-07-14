@@ -39,7 +39,11 @@ export default function SearchForm() {
 
   const renderForm = () => (
     <FormControl>
-      <Flex direction={{ base: "row" }} alignItems="left" gap="auto">
+      <Flex
+        direction={{ base: "column", "2xl": "row" }}
+        alignItems="left"
+        gap="auto"
+      >
         <Flex p={1}>
           <FormLabel fontSize="15px">Type</FormLabel>
           <Select
@@ -169,8 +173,15 @@ export default function SearchForm() {
     <Menu>
       <MenuButton
         as={Button}
-        px={4}
-        py={2}
+        p="8px"
+        boxSize={{
+          base: "4px",
+          sm: "8px",
+          md: "30px",
+          lg: "30px",
+          xl: "50px",
+          "2xl": "60px"
+        }}
         transition="all 0.5s"
         borderRadius="md"
         borderWidth="1px"

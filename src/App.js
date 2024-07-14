@@ -41,7 +41,8 @@ export default function App() {
             minH="100vh"
             color="PeriwinkleGray.font"
             position="relative"
-            overflow="hidden"
+            overflowX="hidden"
+            overflowY="auto"
           >
             <Box
               bg="PeriwinkleGray.bg"
@@ -52,6 +53,7 @@ export default function App() {
               top="0"
               left="0"
               zIndex="0"
+              overflowY="auto"
             />
             <Box
               w="100%"
@@ -60,6 +62,7 @@ export default function App() {
               top="0"
               left="0"
               zIndex="1"
+              overflowY="auto"
             >
               <RouterProvider router={router} />
             </Box>

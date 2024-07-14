@@ -10,7 +10,7 @@ export default function CardList({ data, onClick }) {
       overflow="hidden"
       variant="outline"
       w="100"
-      h="80px"
+      h={{ base: "50px", md: "80px" }}
       cursor="pointer"
       onClick={onClick}
     >

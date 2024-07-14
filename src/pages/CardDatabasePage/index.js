@@ -16,7 +16,23 @@ export default function CardDatabasePage() {
             "footer"`
   };
   const TemplateCol = { base: "1fr" };
-  const TemplateRow = { base: "80px 40px 1fr 50px" };
+  const TemplateRow = {
+    base: "30px 25px 1fr 18px",
+    sm: "40px 30px 1fr 20px",
+    md: "50px 45px 1fr 22px",
+    lg: "60px 60px 1fr 24px",
+    xl: "70px 75px 1fr 26px",
+    "2xl": "90px 40px 1fr 28px"
+  };
+  const IconSize = {
+    base: "60px",
+    sm: "80px",
+    md: "100px",
+    lg: "100px",
+    xl: "110px",
+    "2xl": "120px"
+  };
+
   const { card } = useCardListStore();
   const cardsPerPage = 15;
   const [, setCurrentPage] = useState(1);
@@ -79,7 +95,7 @@ export default function CardDatabasePage() {
       <GridItem area={"header"}>
         <Center>
           <Link to="/">
-            <Image src={baseICON} alt="icon" w={{ base: "80px" }} />
+            <Image src={baseICON} alt="icon" w={IconSize} />
           </Link>
         </Center>
       </GridItem>
@@ -99,7 +115,14 @@ export default function CardDatabasePage() {
           right="0"
           left="0"
           w="100%"
-          h={{ base: "calc(80vh)", sm: "calc(76vh)" }}
+          h={{
+            base: "calc(80vh)",
+            sm: "calc(80vh)",
+            md: "calc(80vh)",
+            lg: "calc(80vh)",
+            xl: "calc(80vh)",
+            "2xl": "calc(80vh)"
+          }}
           overflowY="auto"
           p="2"
           boxShadow="sm"

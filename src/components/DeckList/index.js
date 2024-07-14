@@ -15,7 +15,7 @@ export default function DeckList({ data, index, edit }) {
   return (
     <Image
       cursor="pointer"
-      h={{ base: "40px", md: "116px" }}
+      h={{ base: "50px", md: "80px" }}
       w="auto"
       src={imageUrl}
       alt={cardName}

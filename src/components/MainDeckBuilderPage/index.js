@@ -87,7 +87,7 @@ export default function MainDeckBuilderPage() {
             "detail side fav"`
       }}
       gridTemplateRows={{
-        base: "100px 100px 1fr 1fr 1fr",
+        base: "70px 70px 1fr 1fr 1fr",
         md: "1fr 140px 140px"
       }}
       gridTemplateColumns={{
@@ -99,7 +99,7 @@ export default function MainDeckBuilderPage() {
       color="blackAlpha.700"
       fontWeight="bold"
     >
-      <GridItem bg="orange.300" area={"detail"}>
+      <GridItem area={"detail"}>
         <DetailCard
           data={selectedCard}
           onClick={() => {
@@ -126,7 +126,7 @@ export default function MainDeckBuilderPage() {
           }}
         />
       </GridItem>
-      <GridItem bg="green.300" area={"main"}>
+      <GridItem area={"main"}>
         <Text>{`Main Deck : ${MainDeck.data.length}/40`}</Text>
         <Box
           bg="white"
@@ -138,7 +138,7 @@ export default function MainDeckBuilderPage() {
           left="0"
           w="100%"
           h="calc(100%)"
-          maxH={{ base: "120px", md: "465px" }}
+          maxH={{ base: "95px", md: "465px" }}
           overflowY="auto"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"
@@ -155,7 +155,7 @@ export default function MainDeckBuilderPage() {
           ))}
         </Box>
       </GridItem>
-      <GridItem bg="yellow.300" area={"extra"}>
+      <GridItem area={"extra"}>
         <Text>{`Extra Deck : ${ExtraDeck.data.length}/15`}</Text>
         <Box
           bg="white"
@@ -167,7 +167,7 @@ export default function MainDeckBuilderPage() {
           left="0"
           w="100%"
           h="calc(100%)"
-          maxH={{ base: "120px", md: "116px" }}
+          maxH={{ base: "95px", md: "120px" }}
           overflowY="auto"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"
@@ -184,7 +184,7 @@ export default function MainDeckBuilderPage() {
           ))}
         </Box>
       </GridItem>
-      <GridItem bg="red.300" area={"side"}>
+      <GridItem area={"side"}>
         <Text>{`Side Deck : ${SideDeck.data.length}/15`}</Text>
         <Box
           bg="white"
@@ -196,7 +196,7 @@ export default function MainDeckBuilderPage() {
           left="0"
           w="100%"
           h="calc(100%)"
-          maxH={{ base: "120px", md: "116px" }}
+          maxH={{ base: "95px", md: "100px" }}
           overflowY="auto"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"
@@ -213,7 +213,7 @@ export default function MainDeckBuilderPage() {
           ))}
         </Box>
       </GridItem>
-      <GridItem bg="pink.300" area={"card"}>
+      <GridItem area={"card"}>
         CardList
         <Box
           bg="white"
@@ -225,7 +225,7 @@ export default function MainDeckBuilderPage() {
           left="0"
           w="100%"
           h={{ base: "calc(100%)" }}
-          maxH={{ base: "80px", md: "465px" }}
+          maxH={{ base: "50px", md: "465px" }}
           overflowY="auto"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"
@@ -240,7 +240,7 @@ export default function MainDeckBuilderPage() {
           <div ref={loadMoreRef} style={{ height: "1px", width: "100%" }} />
         </Box>
       </GridItem>
-      <GridItem bg="blue.300" area={"fav"}>
+      <GridItem area={"fav"}>
         FavoriteList
         <Box
           bg="white"
@@ -252,7 +252,7 @@ export default function MainDeckBuilderPage() {
           left="0"
           w={{ base: "100%" }}
           h={{ base: "calc(100%)" }}
-          maxH={{ base: "80px", md: "265px" }}
+          maxH={{ base: "50px", md: "250px" }}
           overflowY="auto"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"

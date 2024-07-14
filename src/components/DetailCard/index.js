@@ -20,7 +20,7 @@ export default function DetailCard({ data, onClick }) {
   const cardDesc = data?.desc || "";
 
   return (
-    <Card maxW="sm" maxH={{ base: "85vh" }}>
+    <Card maxW="sm" maxH={{ base: "80vh", md: "85vh" }} overflow="hidden">
       <CardBody>
         <Image src={imageUrl} alt={cardName} borderRadius="lg" />
         <Stack
@@ -32,23 +32,30 @@ export default function DetailCard({ data, onClick }) {
           right="0"
           left="0"
           w="100%"
-          h={{ base: "calc(100px)", sm: "calc(150px)", md: "calc(260px)" }}
+          h={{ base: "calc(80px)", sm: "calc(150px)", md: "calc(200px)" }}
           overflowY="auto"
           boxShadow="sm"
           transition="box-shadow 0.2s ease, background-color 0.2s ease"
         >
-          <Text fontSize="sm">{cardName}</Text>
-          <Text fontSize="xs">{`${cardRace} / ${cardType} `}</Text>
-          <Text fontSize="xs">{cardDesc}</Text>
-          <Flex gap={5} fontSize="xs">
+          <Text fontSize={{ base: "10px", md: "sm" }}>{cardName}</Text>
+          <Text
+            fontSize={{ base: "6px", md: "xs" }}
+          >{`${cardRace} / ${cardType} `}</Text>
+          <Text fontSize={{ base: "6px", md: "xs" }}>{cardDesc}</Text>
+          <Flex gap={5} fontSize={{ base: "6px", md: "xs" }}>
             <Text>{`ATK : ${cardATK}`}</Text>
             <Text>{`DEF : ${cardDEF}`}</Text>
           </Flex>
         </Stack>
       </CardBody>
-      <Divider />
       <CardFooter>
-        <Button variant="solid" colorScheme="blue" onClick={onClick}>
+        <Button
+          variant="solid"
+          colorScheme="blue"
+          onClick={onClick}
+          boxSize={{ base: "15px", md: "100px" }}
+          fontSize={{ base: "5px", md: "xs" }}
+        >
           Add to Deck
         </Button>
       </CardFooter>

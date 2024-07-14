@@ -14,7 +14,14 @@ export default function Footer() {
   return (
     <Box
       as="footer"
-      height="50px"
+      height={{
+        base: "18px",
+        sm: "20px",
+        md: "22px",
+        lg: "24px",
+        xl: "26px",
+        "2xl": "28px"
+      }}
       overflow="hidden"
       bg="gray.800"
       color="white"
@@ -24,7 +31,14 @@ export default function Footer() {
     >
       <Text
         animation={`${marquee} 10s linear infinite`}
-        fontSize={{ base: "sm", md: "lg" }}
+        fontSize={{
+          base: "8px",
+          sm: "10px",
+          md: "12px",
+          lg: "14px",
+          xl: "16px",
+          "2xl": "18px"
+        }}
       >
         © 2024 SUPAKPONG. All rights reserved.
       </Text>

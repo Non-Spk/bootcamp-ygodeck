@@ -7,8 +7,15 @@ export default function NavBar() {
     <Menu>
       <MenuButton
         as={Button}
-        px={4}
-        py={2}
+        p="8px"
+        boxSize={{
+          base: "4px",
+          sm: "8px",
+          md: "30px",
+          lg: "30px",
+          xl: "50px",
+          "2xl": "60px"
+        }}
         transition="all 0.5s"
         borderRadius="md"
         borderWidth="1px"

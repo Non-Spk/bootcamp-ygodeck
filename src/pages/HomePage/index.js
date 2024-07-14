@@ -13,7 +13,22 @@ export default function HomePage() {
             "footer"`
   };
   const TemplateCol = { base: "1fr" };
-  const TemplateRow = { base: "80px 40px 1fr 50px" };
+  const TemplateRow = {
+    base: "30px 25px 1fr 18px",
+    sm: "40px 30px 1fr 20px",
+    md: "50px 45px 1fr 22px",
+    lg: "60px 60px 1fr 24px",
+    xl: "70px 75px 1fr 26px",
+    "2xl": "90px 40px 1fr 28px"
+  };
+  const IconSize = {
+    base: "60px",
+    sm: "80px",
+    md: "100px",
+    lg: "100px",
+    xl: "110px",
+    "2xl": "120px"
+  };
 
   return (
     <Grid
@@ -28,7 +43,7 @@ export default function HomePage() {
       <GridItem area={"header"}>
         <Center>
           <Link to="/">
-            <Image src={baseICON} alt="icon" w={{ base: "80px" }} />
+            <Image src={baseICON} alt="icon" w={IconSize} />
           </Link>
         </Center>
       </GridItem>
