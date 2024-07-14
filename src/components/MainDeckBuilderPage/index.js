@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Grid, GridItem, Box, Text } from "@chakra-ui/react";
 import CardList from "../CardList";
 import FavoriteList from "../FavoriteList";
@@ -20,49 +20,59 @@ export default function MainDeckBuilderPage() {
   const [loadedCards, setLoadedCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const loadMoreRef = useRef(null);
-  const pageSize = 4;
+  const pageSize = 15;
   const pageIndex = useRef(0);
   const { MainDeck, ExtraDeck, SideDeck } = useDeckStore();
   const { setMainDeckCard, editMainDeckCard } = useMainDeckCard();
   const { setExtraDeckCard, editExtraDeckCard } = useExtraDeckCard();
   const { setSideDeckCard, editSideDeckCard } = useSideDeckCard();
 
+  const loadMoreCards = useCallback(() => {
+    const newPageIndex = pageIndex.current + 1;
+    const startIndex = newPageIndex * pageSize;
+
+    if (startIndex < card.data.length) {
+      const newCards = card.data.slice(startIndex, startIndex + pageSize);
+      setLoadedCards((prevCards) => [...prevCards, ...newCards]);
+      pageIndex.current = newPageIndex;
+    } else {
+      console.log("No more cards to load");
+    }
+  }, [card.data]);
+
   useEffect(() => {
-    if (card.data) {
+    if (card.data && card.data.length > 0) {
       const initialLoad = card.data.slice(0, pageSize);
       setLoadedCards(initialLoad);
-      setSelectedCard(card.data[0]);
+      setSelectedCard(card.data[0] || null);
+      pageIndex.current = 0;
     }
   }, [card.data, pageSize]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          loadMoreCards();
-        }
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            console.log("Loading more cards...");
+            loadMoreCards();
+          }
+        });
       },
-      { threshold: 1.0 }
+      { threshold: 0.1 } // Adjust as necessary
     );
 
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
+    const currentRef = loadMoreRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (loadMoreRef.current) {
-        observer.unobserve(loadMoreRef.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
-  }, [loadedCards]);
-
-  const loadMoreCards = () => {
-    const newPageIndex = pageIndex.current + 1;
-    const startIndex = newPageIndex * pageSize;
-    const newCards = card.data.slice(startIndex, startIndex + pageSize);
-    setLoadedCards((prevCards) => [...prevCards, ...newCards]);
-    pageIndex.current = newPageIndex;
-  };
+  }, [loadMoreCards]);
 
   return (
     <Grid
@@ -227,7 +237,7 @@ export default function MainDeckBuilderPage() {
               onClick={() => setSelectedCard(item)}
             />
           ))}
-          <div ref={loadMoreRef} />
+          <div ref={loadMoreRef} style={{ height: "1px", width: "100%" }} />
         </Box>
       </GridItem>
       <GridItem bg="blue.300" area={"fav"}>
