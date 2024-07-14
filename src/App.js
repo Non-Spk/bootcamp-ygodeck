@@ -53,6 +53,7 @@ export default function App() {
               top="0"
               left="0"
               zIndex="0"
+              overflowX="hidden"
               overflowY="auto"
             />
             <Box
@@ -62,6 +63,7 @@ export default function App() {
               top="0"
               left="0"
               zIndex="1"
+              overflowX="hidden"
               overflowY="auto"
             >
               <RouterProvider router={router} />
